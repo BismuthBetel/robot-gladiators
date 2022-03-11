@@ -47,13 +47,18 @@ var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? En
         if (confirmSkip) {
             window.alert(playerName + " has decided to skip this fight. Goodbye!");
             //subtract money from playerMoney for skipping
-            playerMoney = playerMoney - 10;
+            playerMoney = Math.max(0, playerMoney - 10);
             console.log("playerMoney", playerMoney);
         }
     }
 
     //remove enemy's health by subtracting amount set
-    enemyHealth = enemyHealth - playerAttack;
+    // generate random number
+
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
+    enemyHealth = Math.max(0, enemyHealth - damage);
+
     console.log(
         playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
     );
@@ -72,7 +77,10 @@ var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? En
     }
 
     // remove player's health by subtracting amounts
-    playerHealth = playerHealth - enemyAttack;
+    // generate random number
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
         enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
     );
@@ -106,7 +114,7 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
 
             //reset enemyHealth before starting new fight
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
 
 
             // pass pickedEnemyName variable's vaule into the fight function, wheere it will assume the value of the enemy parameter
@@ -155,6 +163,14 @@ var endGame = function() {
     else {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     }
+}
+
+// function to generate a random numeric value
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
 }
 
 var shop = function() {
